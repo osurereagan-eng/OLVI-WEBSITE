@@ -288,6 +288,61 @@ nav ul {
 flex-wrap: wrap;
 gap: 10px;
 }
+/* ===== FORM CONTROLS FIX ===== */
 
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 12px 14px;
+  margin: 8px 0 16px 0;
+
+  background: rgba(255, 255, 255, 0.95);
+  color: #000;
+
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+
+  font-size: 16px;
+  box-sizing: border-box;
 }
+
+/* Textarea height */
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Focus effect */
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #00c6ff;
+  box-shadow: 0 0 0 3px rgba(0, 198, 255, 0.3);
+  outline: none;
+}
+
+/* Buttons (Submit / Clear / Order) */
+button,
+input[type="submit"],
+input[type="reset"] {
+  padding: 12px 18px;
+  border-radius: 12px;
+
+  background: linear-gradient(45deg, #00c6ff, #0072ff);
+  color: #fff;
+
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Button hover */
+button:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover {
+  opacity: 0.9;
+}
+}
+
 
