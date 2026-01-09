@@ -1,0 +1,18 @@
+{
+  "name": "olvi-website",
+  "version": "1.0.0",
+  "description": "OLVI LIGHTS LTD website + Mpesa/Airtel integration",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

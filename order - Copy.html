@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Place Order — OLVI LIGHTS LTD</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="bg-anim"></div>
+<div class="wrap">
+<header class="header">
+  <div class="brand">
+    <div class="logo">OLVI</div>
+    <div><strong>OLVI LIGHTS LTD</strong><div class="muted">Order</div></div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="index.html" class="nav-btn">Home</a></li>
+      <li><a href="about.html" class="nav-btn">About</a></li>
+      <li><a href="products.html" class="nav-btn">Products</a></li>
+      <li><a href="gallery.html" class="nav-btn">Gallery</a></li>
+      <li><a href="contact.html" class="nav-btn">Contact</a></li>
+      <li><a href="order.html" class="nav-btn">Order</a></li>
+    </ul>
+    </nav>
+</header>
+<main style="padding:24px">
+<div class="card" style="max-width:900px;margin:auto">
+<h2>Place Order / Booking</h2>
+<form id="orderForm">
+  <label style="border: 0svi;">Name</label><input name="name" required placeholder="e.g; John Slevian"><br><br>
+  <label>Phone</label><input name="phone" required placeholder="2547XXXXXXXX"><br><br>
+  <label>Email</label><input type="email" name="email" required><br><br>
+  <label>Category</label><br>
+  <select name="category">
+    <option>Electrical</option>
+    <option>Agriculture</option>
+    <option>Automotive</option>
+  </select><br><br>
+  <label>Item / Service</label><input name="item" required><br><br>
+  <label>Amount (KES)</label><input name="amount" id="amount" type="number" min="1" placeholder="e.g. 1000" required><br><br>
+  <label>Payment Method</label><br>
+  <select name="payment">
+    <option>Mpesa</option>
+    <option>Airtel</option>
+    <option>Cash</option>
+    <option>Bank Transfer</option>
+  </select><br><br>
+  <label>Quantity / Notes</label><br><input name="qty"><br><br>
+  <label>Delivery Address / Pickup Notes</label><br><input name="notes"><br><br>
+  <div style="margin-top:10px;display:flex;gap:8px">
+    <button class="btn">Submit</button><br><br>
+    <button type="reset" class="btn ghost">Clear</button><br><br>
+  </div>
+  <div id="orderResult" style="margin-top:12px"></div>
+</form>
+</div>
+</main>
+
+<footer class="footer">
+  <div class="muted">© OLVI LIGHTS LTD 2025-Nairobi</div>
+  <div class="mmuted"><i>prerared by Reagan</i></div>
+</footer>
+</div>
+<button id="scrollTop">↑</button>
+
+<!-- ✅ Connected to backend API -->
+<script src="assets/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('orderForm');
+  const out = document.getElementById('orderResult');
+  form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    try {
+      const res = await fetch('/api/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || 'Payment failed');
+      if (json.provider === 'mpesa') {
+        out.innerHTML = `<div class="card" style="background:#004d40;color:#dff">Mpesa STK Push sent to ${data.phone}. Approve payment on your phone.<br>Order ID: <b>${json.id}</b></div>`;
+      } else if (json.provider === 'airtel') {
+        out.innerHTML = `<div class="card" style="background:#001f3f;color:#fff">Airtel Money request initiated. Order ID: <b>${json.id}</b></div>`;
+      } else {
+        out.innerHTML = `<div class="card">Order recorded successfully (no online payment). ID: <b>${json.id}</b></div>`;
+      }
+      form.reset();
+    } catch (err) {
+      out.innerHTML = `<div class="card" style="background:#400;color:#fff">Error: ${err.message}</div>`;
+    }
+  });
+});
+</script>
+</body>
+</html>

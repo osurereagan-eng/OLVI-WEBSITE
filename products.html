@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Products & Services — OLVI LIGHTS LTD</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="bg-anim" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <header class="header">
+      <div class="brand"><div class="logo">OLVI</div><div><h1>OLVI LIGHTS LTD</h1><p class="muted small">Products & Services</p></div></div>
+     <nav>
+    <ul>
+      <li><a href="index.html" class="nav-btn">Home</a></li>
+      <li><a href="about.html" class="nav-btn">About</a></li>
+      <li><a href="products.html" class="nav-btn">Products</a></li>
+      <li><a href="gallery.html" class="nav-btn">Gallery</a></li>
+      <li><a href="contact.html" class="nav-btn">Contact</a></li>
+      <li><a href="order.html" class="nav-btn">Order</a></li>
+    </ul>
+  </nav>
+</header>
+
+    <main class="container" style="display:block">
+      <div class="search-container">
+  
+<section id="products" class="page" aria-labelledby="product-heading">
+  <div class="intro">
+    <h2 id="product-heading" style="text-align:center;">Our Products</h2>
+    <p class="muted" style="text-align:center;">Find electrical, agricultural, and automotive items easily.</p>
+
+   
+   <!-- 🔍 Search Bar (Fixed at Top Center) -->
+<div class="search-wrapper">
+  <div class="search-box">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search products..."
+      oninput="liveSearch()"
+    />
+    <div id="searchResults" class="search-results"></div>
+  </div>
+</div>
+
+<!-- Where search results (clicked items) will appear -->
+<div id="productList" class="product-list"></div>
+
+
+    <!-- Results -->
+    <div id="productList" style="margin-top:20px;"></div>
+  </div>
+</section><br><br>
+
+
+<div id="productList" class="product-grid">
+  <!-- Product cards will load here -->
+</div><br><br>
+
+<script src="app.js"></script>
+
+
+<script>
+  async function searchProducts() {
+    const query = document.getElementById("searchInput").value.toLowerCase().trim();
+    const products = document.querySelectorAll(".product-card");
+    let found = false;
+
+    // 1️⃣ Frontend filter (local)
+    products.forEach(card => {
+      const name = card.querySelector(".product-name").textContent.toLowerCase();
+      if (name.includes(query)) {
+        card.style.display = "block";
+        found = true;
+      } else {
+        card.style.display = "none";
+      }
+    });
+
+    // 2️⃣ If not found locally, fetch from backend
+    if (!found && query.length > 1) {
+      const response = await fetch(`/api/search?query=${encodeURIComponent(query)}`);
+      const data = await response.json();
+
+      const list = document.getElementById("productList");
+      list.innerHTML = "";
+
+      if (data.length > 0) {
+        data.forEach(p => {
+          list.innerHTML += `
+            <div class="product-card">
+              <h3 class="product-name">${p.name}</h3>
+              <p>${p.description || ""}</p>
+              <p><strong>Price:</strong> ${p.price || "N/A"}</p>
+            </div>`;
+        });
+      } else {
+        list.innerHTML = `<p style="color:red;">No products found for "${query}"</p>`;
+      }
+    }
+  }
+</script>
+
+<style>
+  .search-container {
+    margin: 20px auto;
+    text-align: center;
+  }
+
+  #searchInput {
+    width: 60%;
+    padding: 10px 15px;
+    border: 1px solid #888;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+
+  .product-card {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 10px;
+  }
+</style>
+
+      <div class="card">
+        <div class="section-title" style="align-items:flex-start">
+          <h2 id="electrical">Electrical</h2>
+          <div class="muted small">Vision: Reliable energy access</div>
+        </div>
+        <p class="muted">Lighting & Fixtures, Power & Wiring, Solar & Inverters, Installation & Maintenance.</p>
+        <div class="product-card">
+
+        <div class="grid" style="margin-top:12px">
+          <div class="card">
+            <h4>Lighting & Fixtures</h4>
+            <p class="muted">LEDs, emergency lights, floodlights and smart controllers.</p><br><br>
+            <div style="margin-top:8px"><a class="btn small" href="order.html">Order Lighting</a></div><br>
+          </div>
+
+          <div class="card">
+            <h4>Power & Wiring</h4>
+            <p class="muted">Cables, breakers, sockets, distribution boards and protective gear.</p><br><br>
+            <div style="margin-top:8px"><a class="btn small" href="order.html">Order Power</a></div><br>
+          </div>
+
+          <div class="card">
+            <h4>Solar & Inverters</h4>
+            <p class="muted">Panels, controllers, and inverters plus installation consultation.</p><br><br>
+            <div style="margin-top:8px"><a class="btn small" href="order.html">Request Solar Quote</a></div><br>
+          </div>
+        </div>
+
+        <hr style="margin:18px 0; border:none; height:1px; background:rgba(255,255,255,0.02)">
+
+        <div class="section-title" style="align-items:flex-start">
+          <h2 id="agri">Agriculture</h2>
+          <div class="muted small">Vision: Sustainable food systems</div>
+        </div>
+        <p class="muted">Fresh Fruits & Vegetables, Livestock & Animal Products, Supply Partnerships.</p>
+
+        <div class="grid" style="margin-top:12px">
+          <div class="card"><h4>Fresh Produce</h4><p class="muted">Seasonal fruits and vegetables with traceable sourcing.</p><div style="margin-top:8px"><a class="btn small" href="order.html">Order Produce</a></div></div><br>
+          <div class="card"><h4>Livestock Products</h4><p class="muted">Milk, eggs and limited specialty cuts.</p><div style="margin-top:8px"><a class="btn small" href="order.html">Order Animal Products</a></div></div><br>
+          <div class="card"><h4>Supply Partnerships</h4><p class="muted">Consistent batches for traders and institutions.</p><div style="margin-top:8px"><a class="btn small" href="order.html">Discuss Supply</a></div></div><br>
+        </div>
+
+        <hr style="margin:18px 0; border:none; height:1px; background:rgba(255,255,255,0.02)">
+
+        <div class="section-title" style="align-items:flex-start">
+          <h2 id="auto">Automotive</h2>
+          <div class="muted small">Vision: Safer mobility</div><br>
+        </div>
+        <p class="muted">Motor spare parts, diagnostics, maintenance, carwash and wheel balancing.</p>
+
+        <div class="grid" style="margin-top:12px">
+          <div class="card"><h4>Spare Parts</h4><p class="muted"><img src="electic start.webp" alt="electic start" width="80px">
+            <img src="aternater group.webp" alt="alternator group" width="80px" style="border: hidden;">
+            <img src="fuel injector.webp" alt="fuel injector" width="80px">
+            <img src="fuel injector (2).webp" alt=" fuel injector" width="100px"><br>Branded and economy replacement parts.</p><div style="margin-top:8px"><a class="btn small" href="order.html">Order Parts</a></div></div><br>
+          <div class="card"><h4>Maintenance & Repair</h4><p class="muted">Engine diagnostics, brake service and repairs.</p><div style="margin-top:8px"><a class="btn small" href="order.html">Book Service</a></div></div><br>
+          <div class="card"><h4>Carwash & Balancing</h4><p class="muted">Exterior/interior cleaning and wheel balancing.</p><div style="margin-top:8px"><a class="btn small" href="order.html">Book Carwash</a></div></div><br>
+        </div>
+      </div>
+
+      <aside style="margin-top:16px">
+        <div class="card">
+          <h4>Trust Worthy:</h4>
+          <p class="muted">With OLVI LIGHTS LTD we ensure that your mobility is smooth and effecient, your health is in good condition by providing fresh produce from our farms and we also brighten your world to bring your vission to the world of reality. Trust us with your transaction</p>
+          <div style="margin-top:12px"><strong>Mission:</strong><div class="muted">Deliver practical, affordable solutions with transparent pricing and skilled workmanship to all Kenyans.</div></div>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <div class="muted">© OLVI LIGHTS LTD 2025</div>
+      <div class="muted">For large orders, contact us</div>
+    </footer>
+  </div>
+
+  <button id="scrollTop" title="Scroll to top">↑</button>
+  <a href="order.html" class="btn order-float">Order</a>
+
+  <script src="assets/app.js"></script>
+  <script>
+const products = [
+ { name: "Lighting & Fixtures", description: "LED bulbs, chandeliers, floodlights, smart lighting controllers", price: "KES 500 - 20,000" },
+ { name: "Power & Wiring", description: "Cables, sockets, breakers, wiring accessories", price: "KES 100 - 5,000" },
+ { name: "Solar & Inverters", description: "Panels, batteries, charge controllers", price: "KES 5,000 - 100,000" },
+ { name: "Fruits & Vegetables", description: "Fresh seasonal farm produce", price: "Varies" },
+ { name: "Livestock & Animal Products", description: "Eggs, milk, and fresh meat", price: "Varies" },
+ { name: "Motor Vehicle Spare Parts", description: "OEM and replacement vehicle parts", price: "KES 1,000 - 50,000" },
+ { name: "Carwash & Wheel Balancing", description: "Professional cleaning & balancing services", price: "KES 500 - 2,000" },
+ { name: "LED Bulb 12W", description: "Energy saving LED bulb", price: "Ksh 250" },
+ { name: "Flood Light 100W", description: "Bright outdoor flood light", price: "Ksh 3,000" },
+ { name: "Smart Switch", description: "WiFi-enabled light switch", price: "Ksh 1,500" },
+ { name: "Extension Cable", description: "10m heavy-duty cable", price: "Ksh 1,200" },
+ { name: "Panel Light", description: "Ceiling mounted LED panel", price: "Ksh 2,800" },
+ { name: "engine fuel injector", description:" CAT 20R-2079 injector", price: " ksh 237,673.96"},
+];
+
+// Live Search Function
+function liveSearch() {
+  const query = document.getElementById("searchInput").value.trim().toLowerCase();
+  const resultBox = document.getElementById("searchResults");
+
+  if (!query) {
+    resultBox.innerHTML = "";
+    return;
+  }
+
+  const results = products.filter(p =>
+    p.name.toLowerCase().includes(query) ||
+    p.description.toLowerCase().includes(query)
+  );
+
+  if (results.length === 0) {
+    resultBox.innerHTML = "<p class='no-results'>No matching results found.</p>";
+    return;
+  }
+
+  resultBox.innerHTML = results.map(p => `
+    <div class="result-item" onclick="selectProduct('${p.name}','${p.description}','${p.price}')">
+      <h4>${p.name}</h4>
+      <p>${p.description}</p>
+      <span>${p.price}</span>
+    </div>
+  `).join("");
+
+  // Fade-in animation
+  resultBox.style.opacity = "1";
+}
+
+// When user clicks a product result
+function selectProduct(name, desc, price) {
+  const resultBox = document.getElementById("searchResults");
+  resultBox.innerHTML = `
+    <div class="selected-result">
+      <h3>${name}</h3>
+      <p>${desc}</p>
+      <p><strong>${price}</strong></p>
+    </div>
+  `;
+  document.getElementById("searchInput").value = name;
+}
+</script>
+
+</body>
+</html>
