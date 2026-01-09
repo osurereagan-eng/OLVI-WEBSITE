@@ -224,6 +224,20 @@ select{
     padding: 15px 20px;
     text-align: left;
 }
+@media (max-width: 768px) {
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  nav a {
+    font-size: 14px;
+    padding: 10px 14px;
+    white-space: nowrap;
+  }
+}
 /*styling for table header cells*/
 .opening-hours-table th{
     background-color: #3498db;
@@ -276,3 +290,4 @@ gap: 10px;
 }
 
 }
+
